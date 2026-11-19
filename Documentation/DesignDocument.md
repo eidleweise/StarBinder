@@ -27,7 +27,7 @@ Design a lightweight, maintainable, cross-platform desktop application written e
 
 ## 2. System Architecture
 
-The proposed application uses a **local client-server desktop architecture**: a local Python web server renders a web UI inside an OS-native webview window. The first implementation story will test NiceGUI native mode on Windows and Bazzite before this choice is finalized.
+The proposed application uses a **local client-server desktop architecture**: a local Python web server renders a web UI inside an OS-native webview window. Story 1 validated NiceGUI native mode on Windows 11 and Bazzite; proceed with NiceGUI for the application skeleton, while keeping the Linux webview dependency footprint under review.
 
 ```text
 +-------------------------------------------------------------------+
@@ -48,11 +48,18 @@ The proposed application uses a **local client-server desktop architecture**: a 
 |                                 v                                 |
 |  +-------------------------------------------------------------+  |
 |  |  Native Webview Window (managed by NiceGUI)                 |  |
-|  |   + Linux: WebKitGTK / GTK                                 |  |
+|  |   + Linux: Qt WebEngine (Bazzite spike configuration)      |  |
 |  |   + Windows: Microsoft Edge WebView2                       |  |
 |  +-------------------------------------------------------------+  |
 +-------------------------------------------------------------------+
 ```
+
+The Bazzite host lacked Python GTK bindings and GTK WebKit, so the spike used
+pywebview's Qt backend. This added about 204 MB of downloaded Qt packages;
+Chromium emitted a GBM warning and fell back to Vulkan rendering. Windows 11
+worked with WebView2. Treat Linux native prerequisites and package size as a
+deployment tradeoff to revisit, not as evidence that all Linux distributions
+will provide the same working environment.
 
 ### 2.1 Launcher Bootstrap
 
@@ -97,6 +104,8 @@ Support a standard three-operation file workflow:
 * **Open:** Select an XML binding file, validate it, and replace the current profile after confirmation if the current profile has unsaved edits.
 * **Save:** Write the current bindings and profile metadata back to the currently opened file.
 * **Save As:** Choose a destination XML file and then use that file as the current save target.
+
+Open and Save As file selection should allow a user to enter or paste a full path directly, rather than requiring directory-by-directory navigation. If a platform's native picker does not make this practical, provide a clear path-entry alternative.
 
 The first save of an unsaved or newly imported profile should behave as Save As and request a destination. The current file path and profile name should be visible in the app chrome.
 
@@ -325,11 +334,11 @@ Rules:
 
 The initial UI should be sufficient for the app's primary read-and-understand goal:
 
-* File open/import control.
+* Provide a conventional application menu or an equally discoverable in-window menu. At minimum, **File** contains Open, Save, Save As, and Exit; **Edit** contains Undo and Redo. If native menus are unavailable or inconsistent across supported platforms, use an in-window menu with the same commands and behavior.
+* Provide standard shortcuts: `Ctrl+O` for Open, `Ctrl+S` for Save, `Ctrl+Shift+S` for Save As, `Ctrl+Z` for Undo, and `Ctrl+Y` for Redo on Windows/Linux.
 * Open an existing Star Citizen bindings XML file through a native or in-app file picker.
 * Save changes back to the current bindings file.
 * Save As copies the current profile to a user-selected XML file.
-* Undo and Redo controls are available in the main UI, using standard platform shortcuts (`Ctrl+Z` / `Ctrl+Y` on Windows/Linux).
 * Profile name and source metadata.
 * A visible status when the source file has changed externally, with an action to review or resolve the conflict.
 * Action maps in an accordion/concertina hierarchy that can be expanded and collapsed independently.
@@ -777,9 +786,25 @@ Stories are ordered by dependency and risk. The first is a time-boxed technical 
 
 * A small test app opens a native window and displays a basic control on both platforms.
 * A native file picker opens, returns a selected XML path, and the app displays the selected filename without parsing or changing the file.
+* The app presents File and Edit menus (native or in-window); File → Open invokes the picker. Save and Undo/Redo may be labeled placeholders in this spike.
 * Closing the window shuts down the local server and process cleanly.
 * Record the tested OS versions, Python version, NiceGUI version, webview engine, installation steps, and any native prerequisites.
 * If either platform fails or requires unacceptable setup, document the failure and choose an alternative before proceeding to Story 2.
+
+**Outcome:** The acceptance checks passed on Bazzite and Windows 11. Both
+launched the native window, selected an XML file using File → Open, displayed
+the selection without parsing or changing it, and shut down cleanly. The
+in-window File/Edit menus worked on both; their spike layout is only a
+functional probe and should not be carried into the product UI as-is. NiceGUI
+3.19.0 was used on both. Bazzite used Python 3.13.18 and pywebview 6.2.1 with
+Qt 6.12.0. Windows used uv-managed Python 3.13 and WebView2; its exact Python
+patch and WebView2 version, and the Windows build number, were not recorded.
+The Bazzite OS was 45.20261117.1 (Kinoite). Setup used `uv run --python 3.13
+main.py` (or the Windows helper batch file) with internet access for any
+uncached Python and packages.
+
+The spike did not test pasting a full path into the native picker; direct path
+entry remains a product requirement from §3.2 and is not a Story 1 blocker.
 
 ### Story 2 — Establish the Application Skeleton and Runtime Decision
 
