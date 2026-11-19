@@ -701,7 +701,7 @@ Developer edits modify catalog/localization files or user overrides, never raw a
 
 ## 12. Testing Strategy
 
-Testing is a first-class requirement because an XML profile can look correct in the UI yet be changed or serialized in a way Star Citizen cannot load. Automated tests should run locally and in CI without requiring Star Citizen, a joystick, or network access.
+Testing is a first-class requirement because an XML profile can look correct in the UI yet be changed or serialized in a way Star Citizen cannot load. During implementation, run the relevant automated and manual checks locally; do not make testing on every supported OS a per-story requirement. Defer broader cross-platform release qualification to the release gate. Automated tests should not require Star Citizen, a joystick, or network access.
 
 ### 12.1 Test Layers
 
@@ -709,7 +709,7 @@ Testing is a first-class requirement because an XML profile can look correct in 
 * **Integration tests:** Open a profile, apply supported edits, undo/redo them, save or Save As, reopen the result, and verify both the visible model and XML contents.
 * **UI tests:** File dialogs, accordion expansion, both independent filters and their intersection, tooltips and keyboard-accessible descriptions, editing, clearing, unsaved prompts, and settings persistence.
 * **Launcher tests:** Simulate Python missing/present/unsupported, `uv` missing/present, user consent/decline, dependency installation success/failure, and native webview prerequisites without modifying the host or requiring network access.
-* **Platform smoke tests:** Launch and exercise file open/save on each supported OS and supported Python version.
+* **Local smoke tests:** Launch and exercise the changed behavior on the developer's local OS and supported Python version. Cross-platform smoke testing is a release check, not a per-story blocker.
 
 Use the test framework and UI automation supported by the selected application stack; keep core parsing and serialization tests independent of the GUI toolkit.
 
@@ -770,7 +770,7 @@ Until that experiment is complete, preserve unknown nodes/attributes where the X
 
 ### 12.5 Release Checks
 
-Before a release, run the automated suite and smoke-test Windows and the supported Linux distribution(s). Maintain a manual checklist for first-run Python/`uv` detection and consent flow, native prerequisites, file picker behavior, app launch, Save/Save As, undo/redo, external-edit conflict resolution, and opening saved profiles in Star Citizen. Do not treat a successful XML parse or structural validation by StarBinder as proof that Star Citizen accepts a generated file.
+Before a release, run the automated suite locally and complete cross-platform smoke checks on Windows and the supported Linux distribution(s). Maintain a manual checklist for first-run Python/`uv` detection and consent flow, native prerequisites, file picker behavior, app launch, Save/Save As, undo/redo, external-edit conflict resolution, and opening saved profiles in Star Citizen. Do not treat a successful XML parse or structural validation by StarBinder as proof that Star Citizen accepts a generated file.
 
 ---
 
