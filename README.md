@@ -21,3 +21,10 @@ Run the local automated tests with:
 ```sh
 uv run --locked python -m unittest discover -s tests -v
 ```
+
+Application logs are written to a dedicated per-user `StarBinder/logs`
+directory and rotated at 5 MiB, retaining up to five previous log files:
+
+* Linux: `~/.local/state/starbinder/logs/`
+* macOS: `~/Library/Logs/StarBinder/`
+* Windows: `%LOCALAPPDATA%\StarBinder\logs\`

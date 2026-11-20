@@ -20,7 +20,7 @@ Design a lightweight, maintainable, cross-platform desktop application written e
 ### 1.3 Non-Goals
 * Compiling standalone single-file `.exe` / `.app` binaries (deferred unless distribution to non-`uv` environments becomes required).
 * Multi-user cloud hosting or public internet exposure (application binds strictly to `localhost`).
-* Capturing keyboard, mouse, joystick, or gamepad input to create new bindings. StarBinder displays and manages bindings present in an imported profile; new bindings added by Star Citizen or another external tool should be read from the updated XML.
+* Capturing input to create or edit bindings. A temporary joystick/gamepad capture may be used only to search existing profile bindings; it must not modify the profile.
 * Treating a well-formed XML document as automatically compatible with Star Citizen. StarBinder must validate against documented/profile-observed constraints, but only Star Citizen itself can provide final compatibility confirmation.
 
 ---
@@ -870,6 +870,7 @@ qualification. The local native window was visually confirmed by the user.
 * Binding and name filters work independently and together as an intersection.
 * Search matches normalized input display, raw input tokens, localized text, and raw action identifiers.
 * Unknown maps/actions remain visible under `Other` or an equivalent fallback section.
+* Optional joystick/gamepad capture detects a pressed button or moved axis and uses it to search existing assignments only; it never creates or edits bindings.
 
 ### Story 6 — Add Theme, Typography, and User Settings
 

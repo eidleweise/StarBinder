@@ -1,0 +1,44 @@
+{
+  "action_map": {
+    "lights_controller": "Flight - Lights",
+    "player": "General - Player",
+    "player_choice": "General - Choices",
+    "player_emotes": "General - Emotes",
+    "player_input_optical_tracking": "General - Optical Tracking",
+    "seat_general": "Seat - General",
+    "spectator": "General - Spectator",
+    "tractor_beam": "Flight - Tractor Beam",
+    "vehicle_driver": "Vehicle - Driver",
+    "vehicle_general": "Vehicle - General",
+    "spaceship_defensive": "Flight - Defensive",
+    "spaceship_general": "Flight - General",
+    "spaceship_missiles": "Flight - Missiles",
+    "spaceship_movement": "Flight - Movement",
+    "spaceship_mining": "Flight - Mining",
+    "spaceship_power": "Flight - Power",
+    "spaceship_quantum": "Flight - Quantum",
+    "spaceship_radar": "Flight - Radar",
+    "spaceship_salvage": "Flight - Salvage",
+    "spaceship_scanning": "Flight - Scanning",
+    "spaceship_targeting": "Flight - Targeting",
+    "spaceship_targeting_advanced": "Flight - Advanced Targeting",
+    "spaceship_view": "Flight - View",
+    "spaceship_weapons": "Flight - Weapons"
+  },
+  "action": {
+    "seat_general": {
+      "v_set_mining_mode-name": "Set Mining Mode",
+      "v_set_mining_mode-description": "Switch the ship or vehicle to mining mode."
+    },
+    "spaceship_movement": {
+      "v_forward-name": "Move Forward",
+      "v_forward-description": "Move the ship or character forward.",
+      "v_back-name": "Move Backward",
+      "v_back-description": "Move the ship or character backward.",
+      "v_strafe_left-name": "Strafe Left",
+      "v_strafe_left-description": "Move laterally to the left.",
+      "v_strafe_right-name": "Strafe Right",
+      "v_strafe_right-description": "Move laterally to the right."
+    }
+  }
+}

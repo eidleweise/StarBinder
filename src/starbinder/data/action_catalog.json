@@ -1,0 +1,54 @@
+{
+  "action_maps": {
+    "seat_general": {"label_key": "action_map.seat_general"},
+    "lights_controller": {"label_key": "action_map.lights_controller"},
+    "player": {"label_key": "action_map.player"},
+    "player_choice": {"label_key": "action_map.player_choice"},
+    "player_emotes": {"label_key": "action_map.player_emotes"},
+    "player_input_optical_tracking": {"label_key": "action_map.player_input_optical_tracking"},
+    "spectator": {"label_key": "action_map.spectator"},
+    "tractor_beam": {"label_key": "action_map.tractor_beam"},
+    "vehicle_driver": {"label_key": "action_map.vehicle_driver"},
+    "vehicle_general": {"label_key": "action_map.vehicle_general"},
+    "spaceship_general": {"label_key": "action_map.spaceship_general"},
+    "spaceship_defensive": {"label_key": "action_map.spaceship_defensive"},
+    "spaceship_missiles": {"label_key": "action_map.spaceship_missiles"},
+    "spaceship_movement": {"label_key": "action_map.spaceship_movement"},
+    "spaceship_mining": {"label_key": "action_map.spaceship_mining"},
+    "spaceship_power": {"label_key": "action_map.spaceship_power"},
+    "spaceship_quantum": {"label_key": "action_map.spaceship_quantum"},
+    "spaceship_radar": {"label_key": "action_map.spaceship_radar"},
+    "spaceship_salvage": {"label_key": "action_map.spaceship_salvage"},
+    "spaceship_scanning": {"label_key": "action_map.spaceship_scanning"},
+    "spaceship_targeting": {"label_key": "action_map.spaceship_targeting"},
+    "spaceship_targeting_advanced": {"label_key": "action_map.spaceship_targeting_advanced"},
+    "spaceship_view": {"label_key": "action_map.spaceship_view"},
+    "spaceship_weapons": {"label_key": "action_map.spaceship_weapons"}
+  },
+  "actions": {
+    "seat_general": {
+      "v_set_mining_mode": {
+        "label_key": "action.seat_general.v_set_mining_mode-name",
+        "description_key": "action.seat_general.v_set_mining_mode-description"
+      }
+    },
+    "spaceship_movement": {
+      "v_forward": {
+        "label_key": "action.spaceship_movement.v_forward-name",
+        "description_key": "action.spaceship_movement.v_forward-description"
+      },
+      "v_back": {
+        "label_key": "action.spaceship_movement.v_back-name",
+        "description_key": "action.spaceship_movement.v_back-description"
+      },
+      "v_strafe_left": {
+        "label_key": "action.spaceship_movement.v_strafe_left-name",
+        "description_key": "action.spaceship_movement.v_strafe_left-description"
+      },
+      "v_strafe_right": {
+        "label_key": "action.spaceship_movement.v_strafe_right-name",
+        "description_key": "action.spaceship_movement.v_strafe_right-description"
+      }
+    }
+  }
+}
