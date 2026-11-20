@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling>=1.26,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "starbinder"
+version = "0.1.0"
+description = "A desktop application for understanding Star Citizen key bindings"
+readme = "README.md"
+requires-python = ">=3.11,<3.16"
+dependencies = [
+    "nicegui[native]==3.19.0",
+    "pywebview[qt]==6.2.1; sys_platform == 'linux'",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/starbinder"]
+
+[tool.uv]
+package = true

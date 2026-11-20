@@ -61,6 +61,11 @@ worked with WebView2. Treat Linux native prerequisites and package size as a
 deployment tradeoff to revisit, not as evidence that all Linux distributions
 will provide the same working environment.
 
+For NiceGUI UI patterns and implementation examples, use the [official
+documentation](https://nicegui.io/documentation/) and [examples
+gallery](https://nicegui.io/examples/). Check examples against the project's
+pinned NiceGUI version and native-mode behavior before adopting them.
+
 ### 2.1 Launcher Bootstrap
 
 The launcher must not assume Python or `uv` is already installed. Before launching the app, guide the user through this sequence:
@@ -69,14 +74,18 @@ The launcher must not assume Python or `uv` is already installed. Before launchi
 2. If Python is missing or unsupported, explain the requirement and offer official installation instructions. Only perform an installation when explicitly offered and approved; otherwise exit cleanly without modifying the system.
 3. After Python is available, check for `uv`.
 4. If `uv` is missing, explain what it is used for and ask whether StarBinder may install it. Provide manual installation instructions if declined. Do not silently install tools.
-5. Use `uv` to create or repair the project-local virtual environment, verify/install the pinned application dependencies from the dependency manifest (`requirements.txt` initially), and launch the app only when setup succeeds.
+5. Use `uv` to create or repair the project-local virtual environment, verify/install the pinned application dependencies from `pyproject.toml` and the checked-in `uv.lock`, and launch the app only when setup succeeds.
 6. If setup or dependency installation fails, show the actionable error and logs; do not continue with a partially provisioned environment.
 
 The launcher should be idempotent and safe to rerun. It must not require administrator privileges for normal setup, alter a system Python installation, or install dependencies globally. Keep the environment and cache in user-writable locations; make their paths configurable for immutable or restricted systems.
 
 Python packages cannot satisfy every native webview prerequisite. Detect and explain missing platform components separately (for example, Linux GTK/WebKit libraries or the Windows WebView2 Runtime). Never attempt privileged OS package installation without explicit consent; provide platform-specific recovery instructions.
 
-The exact Python support floor, `uv` installation method, and Linux webview dependency strategy must be selected and tested before implementation.
+Story 2 selects Python 3.11 as the minimum support version and `uv` with a
+checked-in lockfile for dependency management. The launcher flow for installing
+or locating `uv` remains for Story 10. The Linux native backend currently uses
+Qt WebEngine on Bazzite; validate prerequisites and package size on other
+supported distributions before release.
 Because these prompts run before the Python app exists, the launcher must provide a visible, accessible bootstrap interaction of its own. Decide whether launch scripts require a terminal or use native OS dialogs, and test double-click behavior in file managers; never silently fail or leave the user with no explanation.
 
 ---
@@ -815,7 +824,16 @@ entry remains a product requirement from §3.2 and is not a Story 1 blocker.
 * The successful outcome of Story 1 is recorded as the UI/runtime decision, or an alternative is chosen with rationale.
 * A minimal app starts from the repository using the documented development command.
 * Dependencies are declared and pinned according to the selected dependency-management approach.
-* Automated tests run on the chosen Python support floor and the initial CI target.
+* Automated tests run on the chosen Python support floor and the initial CI target (Linux).
+
+**Outcome:** NiceGUI native mode is the selected runtime. The app skeleton is
+packaged from `src/`, launched with `uv run --locked python -m starbinder`,
+and binds its native-mode server to loopback. Python 3.11 is the support floor;
+the exact dependency graph is committed in `uv.lock`, generated from pinned
+NiceGUI/native-webview dependencies in `pyproject.toml`. Local unit tests cover
+the app's runtime selection and native launch configuration. Initial CI targets
+Ubuntu Linux on Python 3.11; cross-platform checks remain for release
+qualification. The local native window was visually confirmed by the user.
 
 ### Story 3 — Parse Star Citizen Profiles Safely
 
